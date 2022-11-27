@@ -32,8 +32,13 @@ namespace SberTest
             using (var result = new Mat())
             {
                 Cv2.MatchTemplate(source, template, result, TemplateMatchModes.CCoeffNormed);
-                Cv2.MinMaxLoc(result, out Point min, out Point max);
-                
+                Cv2.MinMaxLoc(result, out var minVal, out var maxVal, out Point min, out Point max);
+
+                if (maxVal < 0.9)
+                {
+                    throw new ArgumentException("Не удалось найти output.txt на рабочем столе");
+                }
+
                 return max;
             };
         }
