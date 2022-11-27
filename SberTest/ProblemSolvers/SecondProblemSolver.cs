@@ -59,15 +59,15 @@ namespace SberTest
 
         private void EndParagraph()
         {
-            InputInterop.SendButtonDownMessage((ushort)KeyInterop.VirtualKeyFromKey(Key.Enter));
+            InputInterop.SendButtonDownMessage(Key.Enter);
         }
 
         private void Save()
         {
-            InputInterop.SendHoldButtonMessage((ushort)KeyInterop.VirtualKeyFromKey(Key.LeftCtrl));
-            InputInterop.SendButtonDownMessage((ushort)KeyInterop.VirtualKeyFromKey(Key.W));
-            InputInterop.SendReleaseButtonMessage((ushort)KeyInterop.VirtualKeyFromKey(Key.LeftCtrl));
-            InputInterop.SendButtonDownMessage((ushort)KeyInterop.VirtualKeyFromKey(Key.Enter));
+            InputInterop.SendHoldButtonMessage(Key.LeftCtrl);
+            InputInterop.SendButtonDownMessage(Key.W);
+            InputInterop.SendReleaseButtonMessage(Key.LeftCtrl);
+            InputInterop.SendButtonDownMessage(Key.Enter);
         }
 
         private void WriteRandomText(IntPtr handle)

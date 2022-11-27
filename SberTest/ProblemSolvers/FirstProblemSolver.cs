@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
+using OpenCvSharp.ML;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
@@ -28,7 +29,7 @@ namespace SberTest
             {
                 driver.Navigate().GoToUrl(_sberMegaMarketUrl);
 
-                CloseRewardIfExists(driver);
+                CloseReward(driver);
                 CloseRegionModal(driver);
 
                 var productInfos = SelectProductInfos(driver).Take(_count);
@@ -36,21 +37,24 @@ namespace SberTest
             }
         }
 
-        private void CloseRegionModal(IWebDriver driver)
+        private void CloseRegionModal(IWebDriver driver) => 
+            ClosePopup(driver, "//*[contains(@class, \"modal-win-profile-address-confirm\")]//*[@class=\"close-button\"]");
+
+        private void CloseReward(IWebDriver driver) => 
+            ClosePopup(driver, "//*[@class=\"reward\"]//*[@class=\"close\"]");
+
+        private static void ClosePopup(IWebDriver driver, string xpath)
         {
-            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
             wait.IgnoreExceptionTypes(typeof(NoSuchElementException));
 
             try
             {
-                var element = wait.Until(d => d.FindElement(By.XPath("//*[contains(@class, \"modal-win-profile-address-confirm\")]//*[@class=\"close-button\"]")));
+                var element = wait.Until(d => d.FindElement(By.XPath(xpath)));
                 element.Click();
             }
             catch (Exception) { }
         }
-
-        private void CloseRewardIfExists(IWebDriver driver) =>
-            ClickOnChildElementIfExists(driver, "reward", "close");
 
         private void ClickOnChildElementIfExists(IWebDriver driver, string mainClassName, string childClassName) => driver
             .FindElements(By.ClassName(mainClassName))
