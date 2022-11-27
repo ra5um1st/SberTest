@@ -106,8 +106,9 @@ namespace SberTest
 
                 var position = random.Next(0, randomCharRanges.Count);
                 var randomRange = randomCharRanges[position];
+                var randomKey = KeyInterop.KeyFromVirtualKey(random.Next(randomRange.Min, randomRange.Max));
 
-                InputInterop.SendButtonDownMessage((Key)random.Next(randomRange.Min, randomRange.Max));
+                InputInterop.SendButtonDownMessage(randomKey);
             }
 
             InputInterop.SendReleaseButtonMessage(Key.LeftShift);
